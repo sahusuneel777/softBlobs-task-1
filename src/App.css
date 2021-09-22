@@ -24,6 +24,7 @@
 
 .contact-form-container {
   display: flex;
+  flex-direction: column;
 }
 
 @media screen and (max-width: 575px) {
@@ -54,6 +55,7 @@
 }
 
 .button {
+  align-self: flex-start;
   background-color: #0ea5e9;
   color: #ffffff;
   font-family: 'Roboto';
@@ -96,7 +98,7 @@
 }
 
 .name-column {
-  width: 33%;
+  width: 15%;
   border-right: none;
 }
 

@@ -1,103 +1,139 @@
 import {Component} from 'react'
-import {v4 as uuidv4} from 'uuid'
-
+import Popup from './components'
 import ContactItem from './components/ContactItem'
 
 import './App.css'
 
-const initialContactsList = [
-  {
-    id: uuidv4(),
-    name: 'Ram',
-    mobileNo: 9999988888,
-    isFavorite: false,
-  },
-  {
-    id: uuidv4(),
-    name: 'Pavan',
-    mobileNo: 8888866666,
-    isFavorite: true,
-  },
-  {
-    id: uuidv4(),
-    name: 'Nikhil',
-    mobileNo: 9999955555,
-    isFavorite: false,
-  },
-]
+const initialContactsList = []
 
 class App extends Component {
   state = {
     contactsList: initialContactsList,
-    name: '',
-    mobileNo: '',
+    ticketId: '',
+    description: '',
+    owner: '',
+    createdDate: '',
+    closedDate: '',
   }
 
   onAddContact = event => {
     event.preventDefault()
-    const {name, mobileNo} = this.state
+    const {ticketId, description, owner, createdDate, closedDate} = this.state
 
-    const newContact = {
-      id: uuidv4(),
-      name,
-      mobileNo,
-      isFavorite: false,
+    const newTicket = {
+      slNo: initialContactsList.length + 1,
+      ticketId,
+      description,
+      owner,
+      createdDate,
+      closedDate,
     }
 
     this.setState(prevState => ({
-      contactsList: [...prevState.contactsList, newContact],
-      name: '',
-      mobileNo: '',
+      contactsList: [...prevState.contactsList, newTicket],
+      ticketId: '',
+      description: '',
+      owner: '',
     }))
   }
 
-  changeFavorite = id => {
+  /* changeFavorite = id => {
     this.setState(prevState => ({
       contactsList: prevState.contactsList.map(eachContact => {
         if (id === eachContact.id) {
+          // eachContact.isFavorite = !eachContact.isFavorite
           return {...eachContact, isFavorite: !eachContact.isFavorite}
         }
         return eachContact
       }),
     }))
+  } */
+
+  onChangeTicketId = event => {
+    this.setState({ticketId: event.target.value})
   }
 
-  onChangeMobileNo = event => {
-    this.setState({mobileNo: event.target.value})
+  onChangeDescription = event => {
+    this.setState({description: event.target.value})
   }
 
-  onChangeName = event => {
-    this.setState({name: event.target.value})
+  onChangeCreatedDate = event => {
+    this.setState({createdDate: event.target.value})
+  }
+
+  onChangeClosedDate = event => {
+    this.setState({closedDate: event.target.value})
+  }
+
+  onChangeOwner = event => {
+    this.setState({owner: event.target.value})
   }
 
   render() {
-    const {name, mobileNo, contactsList} = this.state
+    const {
+      contactsList,
+      ticketId,
+      description,
+      owner,
+      createdDate,
+      closedDate,
+    } = this.state
+
+    const {openPopup,setOpenPopup} = useState(false)
+
     return (
       <div className="app-container">
         <div className="responsive-container">
           <h1 className="heading">Contacts</h1>
           <form className="contact-form-container" onSubmit={this.onAddContact}>
             <input
-              value={name}
-              onChange={this.onChangeName}
+              value={ticketId}
+              onChange={this.onChangeTicketId}
               className="input"
-              placeholder="Name"
+              placeholder="ticketId"
             />
             <input
               className="input"
-              value={mobileNo}
-              onChange={this.onChangeMobileNo}
-              placeholder="Mobile Number"
+              value={description}
+              onChange={this.onChangeDescription}
+              placeholder="description"
             />
+            <input
+              className="input"
+              value={owner}
+              onChange={this.onChangeOwner}
+              placeholder="owner"
+            />
+            <input
+              type="date"
+              className="input"
+              value={createdDate}
+              onChange={this.onChangeCreatedDate}
+              placeholder="createdDate"
+            />
+            <input
+              type="date"
+              className="input"
+              value={closedDate}
+              onChange={this.onChangeClosedDate}
+              placeholder="ClosedDate"
+            />
+
             <button type="submit" className="button">
-              Add Contact
+              Add Ticket
             </button>
           </form>
           <ul className="contacts-table">
             <li className="table-header">
-              <p className="table-header-cell name-column">Name</p>
+              <p className="table-header-cell name-column">ticket</p>
               <hr className="separator" />
-              <p className="table-header-cell">Mobile Number</p>
+              <p className="table-header-cell name-column">description</p>
+              <hr className="separator" />
+              <p className="table-header-cell name-column">owner</p>
+              <hr className="separator" />
+              <p className="table-header-cell name-column">createdDate</p>
+              <hr className="separator" />
+              <p className="table-header-cell name-column">ClosedDate</p>
             </li>
             {contactsList.map(eachContact => (
               <ContactItem
@@ -107,8 +143,16 @@ class App extends Component {
               />
             ))}
           </ul>
+          <button className="button" onClick= {()=>setOpenPopup(true)} type="button">
+            Add
+          </button>
         </div>
       </div>
+
+      <Popup openPopup={openPopup} setOpenPopup={setOpenPopup}>
+
+      </Popup>
+
     )
   }
 }
