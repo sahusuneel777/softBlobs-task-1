@@ -12,6 +12,18 @@
   width: 80%;
   max-width: 1140px;
 }
+.main-heading {
+  color: #1e293b;
+  font-family: 'Roboto';
+  font-size: 32px;
+  font-weight: 500;
+  margin-top: 96px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+.details-container {
+  display: flex;
+}
 
 .heading {
   color: #1e293b;

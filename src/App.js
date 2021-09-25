@@ -1,5 +1,8 @@
 import {Component} from 'react'
-import Popup from './components'
+// import React from 'react'
+// import Popup from 'reactjs-popup'
+// import 'reactjs-popup/dist/index.css'
+// import Popup from './components/Popup'
 import ContactItem from './components/ContactItem'
 
 import './App.css'
@@ -15,6 +18,8 @@ class App extends Component {
     createdDate: '',
     closedDate: '',
   }
+
+  // const [, ] = useState(false)
 
   onAddContact = event => {
     event.preventDefault()
@@ -79,11 +84,10 @@ class App extends Component {
       closedDate,
     } = this.state
 
-    const {openPopup,setOpenPopup} = useState(false)
-
     return (
       <div className="app-container">
         <div className="responsive-container">
+          <h1 className="main-heading">MicroKnots</h1>
           <h1 className="heading">Contacts</h1>
           <form className="contact-form-container" onSubmit={this.onAddContact}>
             <input
@@ -143,16 +147,11 @@ class App extends Component {
               />
             ))}
           </ul>
-          <button className="button" onClick= {()=>setOpenPopup(true)} type="button">
+          <button className="button" type="button">
             Add
           </button>
         </div>
       </div>
-
-      <Popup openPopup={openPopup} setOpenPopup={setOpenPopup}>
-
-      </Popup>
-
     )
   }
 }
