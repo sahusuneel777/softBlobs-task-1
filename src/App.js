@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import {v4 as uuidv4} from 'uuid'
 import Popup from 'reactjs-popup'
 // import ReactPopUp from './components/Popup'
 import ContactItem from './components/ContactItem'
@@ -19,40 +20,36 @@ class App extends Component {
     closedDate: '',
   }
 
-  // const [, ] = useState(false)
-
   onAddContact = event => {
     event.preventDefault()
     const {ticketId, description, owner, createdDate, closedDate} = this.state
 
     const newTicket = {
-      slNo: initialContactsList.length + 1,
+      slNo: uuidv4(),
       ticketId,
       description,
       owner,
       createdDate,
       closedDate,
+      isFavorite: false,
     }
 
     this.setState(prevState => ({
       contactsList: [...prevState.contactsList, newTicket],
-      ticketId: '',
-      description: '',
-      owner: '',
     }))
   }
 
-  /* changeFavorite = id => {
+  toggleIsFavorite = slNo => {
     this.setState(prevState => ({
       contactsList: prevState.contactsList.map(eachContact => {
-        if (id === eachContact.id) {
+        if (slNo === eachContact.slNo) {
           // eachContact.isFavorite = !eachContact.isFavorite
           return {...eachContact, isFavorite: !eachContact.isFavorite}
         }
         return eachContact
       }),
     }))
-  } */
+  }
 
   onChangeTicketId = event => {
     this.setState({ticketId: event.target.value})
@@ -72,6 +69,18 @@ class App extends Component {
 
   onChangeOwner = event => {
     this.setState({owner: event.target.value})
+  }
+
+  deleteTicket = slNo => {
+    const {contactsList} = this.state
+    const filteredcontactsList = contactsList.filter(
+      eachContact => eachContact.slNo !== slNo,
+    )
+    this.setState({contactsList: filteredcontactsList})
+  }
+
+  openPopUp = () => {
+    ;<Popup />
   }
 
   render() {
@@ -101,12 +110,17 @@ class App extends Component {
               <p className="table-header-cell name-column">createdDate</p>
               <hr className="separator" />
               <p className="table-header-cell name-column">ClosedDate</p>
+              <hr className="separator" />
+              <p className="table-header-cell name-column">Actions</p>
             </li>
             {contactsList.map(eachContact => (
               <ContactItem
                 key={eachContact.id}
                 changeFavorite={this.changeFavorite}
                 contactDetails={eachContact}
+                deleteTicket={this.deleteTicket}
+                openPopUp={this.openPopUp}
+                toggleIsFavorite={this.toggleIsFavorite}
               />
             ))}
           </ul>
@@ -116,7 +130,7 @@ class App extends Component {
               modal
               trigger={
                 <button type="button" className="button">
-                  add
+                  add Ticket
                 </button>
               }
             >
@@ -161,7 +175,7 @@ class App extends Component {
                       />
 
                       <button type="submit" className="button">
-                        Add Ticket
+                        Add
                       </button>
                     </form>
                   </div>

@@ -34,10 +34,31 @@
   cursor: pointer;
 }
 
-.favorite-icon {
+.favorite-button {
   background: transparent;
   margin-right: 24px;
   align-self: center;
   border: none;
   outline: none;
+  cursor: pointer;
+}
+.delete {
+  height: 18px;
+}
+
+.delete-button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin-right: 5px;
+}
+.edit-button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin-right: 5px;
+  font-size: 16px;
+  color: #1e293b;
 }
