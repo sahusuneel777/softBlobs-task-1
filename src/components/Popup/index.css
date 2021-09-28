@@ -1,0 +1,22 @@
+.button {
+  align-self: flex-start;
+  background-color: #0ea5e9;
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  padding-left: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 24px;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 575px) {
+  .button {
+    width: 200px;
+  }
+}

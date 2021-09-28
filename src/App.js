@@ -1,9 +1,9 @@
 import {Component} from 'react'
-// import React from 'react'
-// import Popup from 'reactjs-popup'
-// import 'reactjs-popup/dist/index.css'
-// import Popup from './components/Popup'
+import Popup from 'reactjs-popup'
+// import ReactPopUp from './components/Popup'
 import ContactItem from './components/ContactItem'
+
+import 'reactjs-popup/dist/index.css'
 
 import './App.css'
 
@@ -88,45 +88,8 @@ class App extends Component {
       <div className="app-container">
         <div className="responsive-container">
           <h1 className="main-heading">MicroKnots</h1>
-          <h1 className="heading">Contacts</h1>
-          <form className="contact-form-container" onSubmit={this.onAddContact}>
-            <input
-              value={ticketId}
-              onChange={this.onChangeTicketId}
-              className="input"
-              placeholder="ticketId"
-            />
-            <input
-              className="input"
-              value={description}
-              onChange={this.onChangeDescription}
-              placeholder="description"
-            />
-            <input
-              className="input"
-              value={owner}
-              onChange={this.onChangeOwner}
-              placeholder="owner"
-            />
-            <input
-              type="date"
-              className="input"
-              value={createdDate}
-              onChange={this.onChangeCreatedDate}
-              placeholder="createdDate"
-            />
-            <input
-              type="date"
-              className="input"
-              value={closedDate}
-              onChange={this.onChangeClosedDate}
-              placeholder="ClosedDate"
-            />
+          <h1 className="heading">Tickets</h1>
 
-            <button type="submit" className="button">
-              Add Ticket
-            </button>
-          </form>
           <ul className="contacts-table">
             <li className="table-header">
               <p className="table-header-cell name-column">ticket</p>
@@ -147,9 +110,72 @@ class App extends Component {
               />
             ))}
           </ul>
-          <button className="button" type="button">
-            Add
-          </button>
+
+          <div className="popup-container">
+            <Popup
+              modal
+              trigger={
+                <button type="button" className="button">
+                  add
+                </button>
+              }
+            >
+              {close => (
+                <>
+                  <div>
+                    <form
+                      className="contact-form-container"
+                      onSubmit={this.onAddContact}
+                    >
+                      <input
+                        value={ticketId}
+                        onChange={this.onChangeTicketId}
+                        className="input"
+                        placeholder="ticketId"
+                      />
+                      <input
+                        className="input"
+                        value={description}
+                        onChange={this.onChangeDescription}
+                        placeholder="description"
+                      />
+                      <input
+                        className="input"
+                        value={owner}
+                        onChange={this.onChangeOwner}
+                        placeholder="owner"
+                      />
+                      <input
+                        type="date"
+                        className="input"
+                        value={createdDate}
+                        onChange={this.onChangeCreatedDate}
+                        placeholder="createdDate"
+                      />
+                      <input
+                        type="date"
+                        className="input"
+                        value={closedDate}
+                        onChange={this.onChangeClosedDate}
+                        placeholder="ClosedDate"
+                      />
+
+                      <button type="submit" className="button">
+                        Add Ticket
+                      </button>
+                    </form>
+                  </div>
+                  <button
+                    type="button"
+                    className="trigger-button pop-up-btn"
+                    onClick={() => close()}
+                  >
+                    Close
+                  </button>
+                </>
+              )}
+            </Popup>
+          </div>
         </div>
       </div>
     )

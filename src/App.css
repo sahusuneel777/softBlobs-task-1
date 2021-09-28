@@ -88,7 +88,14 @@
     width: 200px;
   }
 }
-
+.pop-up-btn {
+  background-color: #334155;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 5px;
+  color: #fff;
+}
 .contacts-table {
   padding-left: 0;
   margin-top: 48px;
