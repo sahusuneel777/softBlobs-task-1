@@ -1,3 +1,6 @@
+import Popup from 'reactjs-popup'
+
+import 'reactjs-popup/dist/index.css'
 import './index.css'
 
 const ContactItem = props => {
@@ -56,9 +59,7 @@ const ContactItem = props => {
         >
           <img src={starImgUrl} className="favorite-icon" alt="favorite" />
         </button>
-        <button type="button" onClick={onclickEdit} className="edit-button">
-          Edit
-        </button>
+
         <button type="button" className="delete-button">
           <img
             src="

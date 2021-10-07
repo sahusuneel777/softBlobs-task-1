@@ -42,6 +42,7 @@
   outline: none;
   cursor: pointer;
 }
+
 .delete {
   height: 18px;
 }
@@ -53,6 +54,7 @@
   cursor: pointer;
   margin-right: 5px;
 }
+
 .edit-button {
   outline: none;
   border: none;
@@ -61,4 +63,7 @@
   margin-right: 5px;
   font-size: 16px;
   color: #1e293b;
+}
+.delete:hover {
+  height: 22px;
 }

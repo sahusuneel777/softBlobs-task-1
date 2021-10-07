@@ -18,11 +18,33 @@ class App extends Component {
     owner: '',
     createdDate: '',
     closedDate: '',
+    errorMsg: '',
+    isFormSubmitted: false,
+    showTicketError: false,
+    showDescriptionError: false,
+
+    showOwnerError: false,
   }
 
   onAddContact = event => {
     event.preventDefault()
     const {ticketId, description, owner, createdDate, closedDate} = this.state
+
+    if (ticketId === '') {
+      this.setState({errorMsg: 'required*'})
+    }
+    if (description === '') {
+      this.setState({errorMsg: 'required*'})
+    }
+    if (owner === '') {
+      this.setState({errorMsg: 'required*'})
+    }
+    if (createdDate === '') {
+      this.setState({errorMsg: 'required*'})
+    }
+    if (closedDate === '') {
+      this.setState({errorMsg: 'required*'})
+    }
 
     const newTicket = {
       slNo: uuidv4(),
@@ -34,9 +56,25 @@ class App extends Component {
       isFavorite: false,
     }
 
-    this.setState(prevState => ({
-      contactsList: [...prevState.contactsList, newTicket],
-    }))
+    if (
+      ticketId !== '' &&
+      description !== '' &&
+      owner !== '' &&
+      createdDate !== '' &&
+      closedDate !== ''
+    ) {
+      this.setState(prevState => ({
+        contactsList: [...prevState.contactsList, newTicket],
+        isFormSubmitted: true,
+      }))
+    } else {
+      this.setState({
+        showTicketError: true,
+        showDescriptionError: true,
+        showOwnerError: true,
+        showCreatedDateError: true,
+      })
+    }
   }
 
   toggleIsFavorite = slNo => {
@@ -79,11 +117,11 @@ class App extends Component {
     this.setState({contactsList: filteredcontactsList})
   }
 
-  openPopUp = () => {
-    ;<Popup />
-  }
+  //   openPopUp = () => {
+  //     ;<Popup />
+  //   }
 
-  render() {
+  renderRegistrationForm = () => {
     const {
       contactsList,
       ticketId,
@@ -91,7 +129,110 @@ class App extends Component {
       owner,
       createdDate,
       closedDate,
+      errorMsg,
+      isFormSubmitted,
+      showTicketError,
+      showOwnerError,
+      showDescriptionError,
+      showCreatedDateError,
     } = this.state
+
+    return (
+      <form className="contact-form-container" onSubmit={this.onAddContact}>
+        <label htmlFor="ticket" className="label">
+          TicketId
+        </label>
+        <input
+          value={ticketId}
+          onChange={this.onChangeTicketId}
+          className="input"
+          placeholder="ticketId"
+          id="ticket"
+        />
+        {showTicketError && <p className="error">{errorMsg}</p>}
+        <label htmlFor="description" className="label">
+          description
+        </label>
+        <input
+          className="input"
+          value={description}
+          onChange={this.onChangeDescription}
+          placeholder="description"
+          id="description"
+        />
+        {showDescriptionError && <p className="error">{errorMsg}</p>}
+        <label htmlFor="owner" className="label">
+          owner
+        </label>
+        <input
+          className="input"
+          value={owner}
+          onChange={this.onChangeOwner}
+          placeholder="owner"
+          id="owner"
+        />
+        {showOwnerError && <p className="error">{errorMsg}</p>}
+        <label htmlFor="createDate" className="label">
+          createdDate
+        </label>
+        <input
+          type="date"
+          className="input"
+          value={createdDate}
+          onChange={this.onChangeCreatedDate}
+          placeholder="createdDate"
+          id="createDate"
+        />
+        {showCreatedDateError && <p className="error">{errorMsg}</p>}
+        <label htmlFor="closeDate" className="label">
+          closedDate
+        </label>
+        <input
+          type="date"
+          className="input"
+          value={closedDate}
+          onChange={this.onChangeClosedDate}
+          placeholder="ClosedDate"
+          id="closeDate"
+        />
+        <p className="error">{errorMsg}</p>
+
+        <button type="submit" className="button">
+          Add
+        </button>
+      </form>
+    )
+  }
+
+  onClickSubmitAnotherResponse = () => {
+    this.setState(prevState => ({
+      isFormSubmitted: !prevState.isFormSubmitted,
+      ticketId: '',
+      description: '',
+      owner: '',
+    }))
+  }
+
+  renderSubmissionSuccessView = () => (
+    <div className="submitAnother-card">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/success-icon-img.png"
+        alt="success"
+        className="success-image"
+      />
+      <p>Submitted Successfully</p>
+      <button
+        type="button"
+        className="submit-button"
+        onClick={this.onClickSubmitAnotherResponse}
+      >
+        Submit Another Response
+      </button>
+    </div>
+  )
+
+  render() {
+    const {contactsList, isFormSubmitted} = this.state
 
     return (
       <div className="app-container">
@@ -125,68 +266,29 @@ class App extends Component {
             ))}
           </ul>
 
-          <div className="popup-container">
+          <div className="popup-container pop-up">
             <Popup
               modal
               trigger={
                 <button type="button" className="button">
-                  add Ticket
+                  Add Ticket
                 </button>
               }
             >
               {close => (
-                <>
-                  <div>
-                    <form
-                      className="contact-form-container"
-                      onSubmit={this.onAddContact}
-                    >
-                      <input
-                        value={ticketId}
-                        onChange={this.onChangeTicketId}
-                        className="input"
-                        placeholder="ticketId"
-                      />
-                      <input
-                        className="input"
-                        value={description}
-                        onChange={this.onChangeDescription}
-                        placeholder="description"
-                      />
-                      <input
-                        className="input"
-                        value={owner}
-                        onChange={this.onChangeOwner}
-                        placeholder="owner"
-                      />
-                      <input
-                        type="date"
-                        className="input"
-                        value={createdDate}
-                        onChange={this.onChangeCreatedDate}
-                        placeholder="createdDate"
-                      />
-                      <input
-                        type="date"
-                        className="input"
-                        value={closedDate}
-                        onChange={this.onChangeClosedDate}
-                        placeholder="ClosedDate"
-                      />
+                <div>
+                  {isFormSubmitted
+                    ? this.renderSubmissionSuccessView()
+                    : this.renderRegistrationForm()}
 
-                      <button type="submit" className="button">
-                        Add
-                      </button>
-                    </form>
-                  </div>
                   <button
                     type="button"
-                    className="trigger-button pop-up-btn"
+                    className="trigger-button pop-up-btn button"
                     onClick={() => close()}
                   >
                     Close
                   </button>
-                </>
+                </div>
               )}
             </Popup>
           </div>
